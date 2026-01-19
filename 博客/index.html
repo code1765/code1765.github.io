@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态博客</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><a href="#">动态博客</a></h1>
+                </div>
+                <nav class="nav">
+                    <ul>
+                        <li><a href="#" class="active">首页</a></li>
+                        <li><a href="#" data-category="技术">技术</a></li>
+                        <li><a href="#" data-category="生活">生活</a></li>
+                        <li><a href="#" data-category="旅行">旅行</a></li>
+                        <li><a href="#" data-category="美食">美食</a></li>
+                    </ul>
+                </nav>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="搜索博客...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区 -->
+    <main class="main">
+        <div class="container">
+            <div class="main-content">
+                <!-- 博客列表 -->
+                <section class="blog-list" id="blogList">
+                    <!-- 博客卡片将通过JavaScript动态生成 -->
+                </section>
+            </div>
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+                <!-- 热门标签 -->
+                <div class="widget">
+                    <h3><i class="fas fa-tags"></i>热门标签</h3>
+                    <div class="tags" id="tagsList">
+                        <!-- 标签将通过JavaScript动态生成 -->
+                    </div>
+                </div>
+                <!-- 最新文章 -->
+                <div class="widget">
+                    <h3><i class="fas fa-newspaper"></i>最新文章</h3>
+                    <ul class="recent-posts" id="recentPosts">
+                        <!-- 最新文章将通过JavaScript动态生成 -->
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- 博客详情模态框 -->
+    <div class="modal" id="blogModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="blog-detail" id="blogDetail">
+                <!-- 博客详情将通过JavaScript动态生成 -->
+            </div>
+            <!-- 评论区 -->
+            <div class="comments-section">
+                <h3>评论 (<span id="commentCount">0</span>)</h3>
+                <div class="comments-list" id="commentsList">
+                    <!-- 评论将通过JavaScript动态生成 -->
+                </div>
+                <div class="comment-form">
+                    <h4>发表评论</h4>
+                    <form id="commentForm">
+                        <div class="form-group">
+                            <input type="text" id="commentName" placeholder="您的姓名" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="commentContent" placeholder="您的评论..." rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">提交评论</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 动态博客. 保留所有权利.</p>
+        </div>
+    </footer>
+
+    <!-- 返回顶部按钮 -->
+    <button class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- 引入JavaScript文件 -->
+    <script src="data/blogs.js"></script>
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>

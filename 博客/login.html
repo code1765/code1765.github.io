@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 动态博客</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-left">
+            <div class="login-brand">
+                <h1>动态博客</h1>
+                <p>探索无限可能的世界</p>
+                <div class="login-features">
+                    <div class="feature-item">
+                        <i class="fas fa-book"></i>
+                        <span>丰富的内容</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-comments"></i>
+                        <span>活跃的社区</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-star"></i>
+                        <span>优质的体验</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="login-right">
+            <div class="login-form-wrapper">
+                <h2>欢迎回来</h2>
+                <p class="login-subtitle">请登录您的账号</p>
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="username">
+                            <i class="fas fa-user"></i>
+                            用户名
+                        </label>
+                        <input type="text" id="username" placeholder="请输入用户名" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fas fa-lock"></i>
+                            密码
+                        </label>
+                        <input type="password" id="password" placeholder="请输入密码" required>
+                    </div>
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe">
+                            <span>记住我</span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            登录
+                        </button>
+                    </div>
+                    <div class="error-message" id="errorMessage"></div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+
+</html>
