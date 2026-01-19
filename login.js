@@ -25,9 +25,6 @@ class LoginSystem {
             this.validateLogin();
         });
 
-        // 加载记住的用户名
-        this.loadRememberedUser();
-
         // 添加表单交互效果
         this.addFormEffects();
     }
@@ -35,49 +32,26 @@ class LoginSystem {
     // 验证登录
     validateLogin() {
         const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const rememberMe = document.getElementById('rememberMe').checked;
         const errorMessage = document.getElementById('errorMessage');
 
         // 清空之前的错误信息
         errorMessage.classList.remove('show');
 
-        // 验证用户名和密码
-        if (this.validUsers[username] && this.validUsers[username] === password) {
-            // 登录成功
-            this.loginSuccess(username, rememberMe);
-        } else {
-            // 登录失败
-            errorMessage.textContent = '用户名或密码错误';
-            errorMessage.classList.add('show');
-            
-            // 添加抖动动画
-            const loginForm = document.getElementById('loginForm');
-            loginForm.classList.add('shake');
-            setTimeout(() => {
-                loginForm.classList.remove('shake');
-            }, 500);
-        }
+        // 任意输入都能成功登录
+        this.loginSuccess(username || 'user');
     }
 
     // 登录成功处理
-    loginSuccess(username, rememberMe) {
+    loginSuccess(username) {
         // 保存登录状态
         const now = new Date();
-        const expirationTime = now.getTime() + (rememberMe ? 7 * 24 * 60 * 60 * 1000 : 1 * 24 * 60 * 60 * 1000);
-        
+        const expirationTime = now.getTime() + (1 * 24 * 60 * 60 * 1000); // 默认1天过期
+
         localStorage.setItem('loggedIn', 'true');
         localStorage.setItem('username', username);
         localStorage.setItem('expirationTime', expirationTime.toString());
-        
-        // 如果选择记住我，保存用户名到localStorage
-        if (rememberMe) {
-            localStorage.setItem('rememberedUser', username);
-        } else {
-            localStorage.removeItem('rememberedUser');
-        }
 
-        // 页面跳转
+        // 直接跳转，不使用过场动画
         window.location.href = 'index.html';
     }
 
@@ -85,7 +59,7 @@ class LoginSystem {
     isLoggedIn() {
         const loggedIn = localStorage.getItem('loggedIn');
         const expirationTime = localStorage.getItem('expirationTime');
-        
+
         if (loggedIn === 'true' && expirationTime) {
             const now = new Date();
             if (now.getTime() < parseInt(expirationTime)) {
@@ -105,44 +79,11 @@ class LoginSystem {
         localStorage.removeItem('expirationTime');
     }
 
-    // 加载记住的用户名
-    loadRememberedUser() {
-        const rememberedUser = localStorage.getItem('rememberedUser');
-        if (rememberedUser) {
-            document.getElementById('username').value = rememberedUser;
-            document.getElementById('rememberMe').checked = true;
-        }
-    }
+
 
     // 添加表单交互效果
     addFormEffects() {
-        const inputs = document.querySelectorAll('.login-form input');
-        
-        inputs.forEach(input => {
-            // 输入框聚焦效果
-            input.addEventListener('focus', () => {
-                const formGroup = input.closest('.form-group');
-                formGroup.classList.add('focused');
-            });
-            
-            // 输入框失焦效果
-            input.addEventListener('blur', () => {
-                const formGroup = input.closest('.form-group');
-                if (!input.value) {
-                    formGroup.classList.remove('focused');
-                }
-            });
-            
-            // 实时输入效果
-            input.addEventListener('input', () => {
-                const formGroup = input.closest('.form-group');
-                if (input.value) {
-                    formGroup.classList.add('filled');
-                } else {
-                    formGroup.classList.remove('filled');
-                }
-            });
-        });
+        // 移除了标签上升效果，保留空函数以保持代码结构
     }
 }
 

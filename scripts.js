@@ -482,7 +482,13 @@ class AuthSystem {
             return;
         }
 
-        // 已登录，初始化博客应用
+        // 已登录，显示博客内容
+        const main = document.querySelector('.main');
+        const footer = document.querySelector('.footer');
+        if (main) main.classList.add('show');
+        if (footer) footer.classList.add('show');
+
+        // 初始化博客应用
         new BlogApp();
         this.addLogoutButton();
     }
@@ -514,27 +520,45 @@ class AuthSystem {
 
     // 添加登出按钮
     addLogoutButton() {
-        // 创建登出按钮
-        const logoutBtn = document.createElement('button');
-        logoutBtn.textContent = '登出';
-        logoutBtn.className = 'btn btn-logout';
-        logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> 登出';
+        try {
+            // 创建登出按钮
+            const logoutBtn = document.createElement('button');
+            logoutBtn.textContent = '登出';
+            logoutBtn.className = 'btn btn-logout';
+            logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> 登出';
+            logoutBtn.style.cssText = 'background: rgba(255, 255, 255, 0.8); color: #3a6ea5; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s ease;';
+            logoutBtn.addEventListener('mouseover', () => {
+                logoutBtn.style.background = 'rgba(173, 216, 230, 0.3)';
+            });
+            logoutBtn.addEventListener('mouseout', () => {
+                logoutBtn.style.background = 'rgba(255, 255, 255, 0.8)';
+            });
 
-        // 添加点击事件
-        logoutBtn.addEventListener('click', () => {
-            this.logout();
-        });
+            // 添加点击事件
+            logoutBtn.addEventListener('click', () => {
+                this.logout();
+            });
 
-        // 添加到导航栏
-        const headerContent = document.querySelector('.header-content');
-        headerContent.appendChild(logoutBtn);
+            // 添加到导航栏
+            const nav = document.querySelector('.nav ul');
+            if (nav) {
+                const li = document.createElement('li');
+                li.style.cssText = 'display: flex; align-items: center; gap: 10px;';
 
-        // 添加登录用户信息
-        const username = localStorage.getItem('username');
-        const userInfo = document.createElement('div');
-        userInfo.className = 'user-info';
-        userInfo.innerHTML = `<span>欢迎, <strong>${username}</strong></span>`;
-        headerContent.insertBefore(userInfo, logoutBtn);
+                // 添加登录用户信息
+                const username = localStorage.getItem('username');
+                const userInfo = document.createElement('span');
+                userInfo.className = 'user-info';
+                userInfo.style.cssText = 'color: #3a6ea5; font-weight: 500; font-size: 14px;';
+                userInfo.innerHTML = `欢迎, <strong>${username}</strong>`;
+
+                li.appendChild(userInfo);
+                li.appendChild(logoutBtn);
+                nav.appendChild(li);
+            }
+        } catch (error) {
+            console.error('添加登出按钮失败:', error);
+        }
     }
 }
 
