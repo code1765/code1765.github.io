@@ -1,0 +1,205 @@
+<!DOCTYPE html> <!-- HTML文档类型声明，告诉浏览器这是HTML5文档 -->
+<html lang="zh-CN"> <!-- HTML根元素，lang属性指定页面语言为中文 -->
+<head> <!-- 头部区域，包含页面元数据和资源引用 -->
+    <meta charset="UTF-8"> <!-- 字符集声明，使用UTF-8编码支持中文 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 视口设置，确保页面在移动设备上正确显示 -->
+    <title>登录页面</title> <!-- 页面标题，显示在浏览器标签页 -->
+    <!-- 引入Google Fonts的Comic Neue字体，用于实现俏皮的手写风格 -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+    <style> <!-- CSS样式定义区域 -->
+        /* 全局样式重置，清除所有元素的默认margin和padding，并使用border-box盒模型 */
+        * {
+            margin: 0; /* 清除外边距 */
+            padding: 0; /* 清除内边距 */
+            box-sizing: border-box; /* 设置盒模型为border-box，宽高包含边框和内边距 */
+        }
+        
+        /* 页面主体样式 */
+        body {
+            font-family: 'Comic Neue', cursive; /* 设置字体为引入的Comic Neue手写字体 */
+            display: flex; /* 使用flex布局 */
+            justify-content: center; /* 水平居中对齐 */
+            align-items: center; /* 垂直居中对齐 */
+            min-height: 100vh; /* 最小高度为视口高度，确保页面占满整个屏幕 */
+            overflow: hidden; /* 隐藏超出视口的内容，防止滚动条出现 */
+        }
+        
+        /* 视频背景容器样式 */
+        .video-background {
+            position: fixed; /* 固定定位，覆盖整个视口 */
+            top: 0; /* 顶部对齐 */
+            left: 0; /* 左侧对齐 */
+            width: 100%; /* 宽度为100% */
+            height: 100%; /* 高度为100% */
+            z-index: -1; /* 层级为-1，确保在所有内容下方 */
+            overflow: hidden; /* 隐藏超出容器的内容 */
+        }
+        
+        /* 视频元素样式 */
+        .video-background video {
+            width: 100%; /* 视频宽度为100% */
+            height: 100%; /* 视频高度为100% */
+            object-fit: cover; /* 保持视频比例并覆盖整个容器，不压缩画质 */
+        }
+        
+        /* 登录容器样式 */
+        .login-container {
+            background: rgba(255, 255, 255, 0.2); /* 半透明白色背景 */
+            backdrop-filter: blur(10px); /* 背景模糊效果，实现磨砂玻璃效果 */
+            -webkit-backdrop-filter: blur(10px); /* Safari浏览器兼容性处理 */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* 半透明白色边框 */
+            border-radius: 15px; /* 15px圆角边框 */
+            padding: 40px; /* 40px内边距 */
+            width: 100%; /* 宽度为100% */
+            max-width: 400px; /* 最大宽度为400px，确保在大屏幕上不会太宽 */
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); /* 柔和的阴影效果 */
+        }
+        
+        /* 登录标题样式 */
+        .login-title {
+            text-align: center; /* 文字居中对齐 */
+            color: white; /* 文字颜色为白色 */
+            margin-bottom: 30px; /* 底部外边距30px */
+            font-size: 28px; /* 字体大小28px */
+            font-weight: 600; /* 字体粗细600 */
+        }
+        
+        /* 输入框组容器样式 */
+        .input-group {
+            margin-bottom: 25px; /* 底部外边距25px，输入框之间的间距 */
+            position: relative; /* 相对定位，用于子元素绝对定位 */
+            width: 100%; /* 宽度为100%，继承父容器宽度 */
+            box-sizing: border-box; /* 确保宽高包含内边距和边框 */
+        }
+        
+        /* 输入框图标样式 */
+        .input-group .icon {
+            position: absolute; /* 绝对定位 */
+            left: 15px; /* 距离左侧15px */
+            top: 50%; /* 距离顶部50% */
+            transform: translateY(-50%); /* 垂直居中对齐 */
+            color: white; /* 图标颜色为白色 */
+            font-size: 18px; /* 图标大小18px */
+        }
+        
+        /* 输入框样式 */
+        .input-group input {
+            width: 100%; /* 宽度为100%，继承父容器宽度 */
+            min-width: 0; /* 重置最小宽度，防止超出容器 */
+            padding: 12px 15px 12px 45px; /* 内边距，左侧45px为图标留出空间 */
+            border: none; /* 无边框 */
+            border-radius: 8px; /* 8px圆角边框 */
+            background: rgba(255, 255, 255, 0.3); /* 半透明白色背景 */
+            color: white; /* 文字颜色为白色 */
+            font-size: 16px; /* 字体大小16px */
+            transition: all 0.3s ease; /* 所有属性变化的过渡效果，持续0.3秒 */
+            outline: none; /* 移除默认的聚焦轮廓 */
+            box-sizing: border-box; /* 确保宽高包含内边距和边框，防止超出容器 */
+        }
+        
+        /* 浏览器自动填充样式覆盖 */
+        input:-webkit-autofill, 
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus {
+            -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.3) inset; /* 覆盖自动填充的背景色 */
+            -webkit-text-fill-color: white; /* 覆盖自动填充的文字颜色 */
+        }
+        
+        /* 输入框占位符样式 */
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7); /* 占位符文字颜色为半透明白色 */
+        }
+        
+        /* 输入框聚焦状态样式 */
+        .input-group input:focus {
+            outline: none; /* 移除默认聚焦轮廓 */
+            background: rgba(255, 255, 255, 0.4); /* 聚焦时背景透明度增加 */
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5); /* 聚焦时的白色边框效果 */
+        }
+        
+        /* 登录按钮样式 */
+        .login-btn {
+            width: 100%; /* 宽度为100% */
+            padding: 12px; /* 12px内边距 */
+            border: none; /* 无边框 */
+            border-radius: 8px; /* 8px圆角边框 */
+            background: rgba(255, 255, 255, 0.4); /* 半透明白色背景 */
+            color: white; /* 文字颜色为白色 */
+            font-size: 16px; /* 字体大小16px */
+            font-weight: 600; /* 字体粗细600 */
+            cursor: pointer; /* 鼠标悬停时显示指针 */
+            transition: all 0.3s ease; /* 所有属性变化的过渡效果，持续0.3秒 */
+        }
+        
+        /* 登录按钮悬停状态样式 */
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.5); /* 悬停时背景透明度增加 */
+            transform: translateY(-2px); /* 向上移动2px，产生浮动效果 */
+        }
+        
+        /* 登录按钮点击状态样式 */
+        .login-btn:active {
+            transform: translateY(0); /* 点击时恢复原位 */
+        }
+        
+        /* 表单样式 */
+        #loginForm {
+            width: 100%; /* 宽度为100%，继承父容器宽度 */
+            box-sizing: border-box; /* 确保宽高包含内边距和边框 */
+        }
+        
+        /* 错误信息样式 */
+        .error-message {
+            text-align: center; /* 文字居中对齐 */
+            color: white; /* 文字颜色为白色 */
+            margin-top: 15px; /* 顶部外边距15px */
+            font-size: 14px; /* 字体大小14px */
+        }
+    </style> <!-- CSS样式定义结束 -->
+</head> <!-- 头部区域结束 -->
+<body> <!-- 页面主体内容区域 -->
+    <!-- 视频背景 -->
+    <div class="video-background"> <!-- 视频背景容器 -->
+        <!-- 视频元素，autoplay自动播放，muted静音，loop循环播放，playsinline内联播放 -->
+        <video autoplay muted loop playsinline>
+            <!-- 视频源，引用resource文件夹中的视频文件，类型为mp4 -->
+            <source src="resource/12月18日 (1).mp4" type="video/mp4">
+            您的浏览器不支持视频播放 <!-- 浏览器不支持视频标签时显示的文本 -->
+        </video>
+    </div>
+    
+    <!-- 登录表单 -->
+    <div class="login-container"> <!-- 登录容器 -->
+        <h1 class="login-title">欢迎回来～</h1> <!-- 登录标题 -->
+        <form id="loginForm"> <!-- 登录表单，id为loginForm用于JavaScript选择 -->
+            <div class="input-group"> <!-- 用户名输入框组 -->
+                <span class="icon">🧑‍🎄</span> <!-- 用户名图标 -->
+                <input type="text" id="username" placeholder="请输入你的昵称"> <!-- 用户名输入框 -->
+            </div>
+            <div class="input-group"> <!-- 密码输入框组 -->
+                <span class="icon">🔒</span> <!-- 密码图标 -->
+                <input type="password" id="password" placeholder="请输入你的秘密"> <!-- 密码输入框 -->
+            </div>
+            <button type="submit" class="login-btn"> 登录</button> <!-- 登录按钮，type为submit触发表单提交 -->
+            <div class="error-message" id="errorMessage"></div> <!-- 错误信息显示区域 -->
+        </form>
+    </div>
+    
+    <script> <!-- JavaScript代码区域 -->
+        // 登录表单提交事件监听
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // 阻止表单默认提交行为，防止页面刷新
+            
+            // 获取错误信息元素
+            const errorMessage = document.getElementById('errorMessage');
+            // 设置错误信息文本
+            errorMessage.textContent = '请稍后再来试试吧 😊';
+            
+            // 设置3秒后清除错误信息
+            setTimeout(() => {
+                errorMessage.textContent = ''; // 清空错误信息
+            }, 3000); // 3000毫秒（3秒）后执行
+        });
+    </script> <!-- JavaScript代码区域结束 -->
+</body> <!-- 页面主体内容区域结束 -->
+</html> <!-- HTML文档结束 -->
